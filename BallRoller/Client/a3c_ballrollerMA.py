@@ -1,11 +1,10 @@
-from unityremote.ml.a3c.train import run as run_train
-from unityremote.ml.a3c.run_checkpoint import run as run_test
-from unityremote.utils import environment_definitions
-import UnityRemoteGym
-from UnityRemoteGym import BasicAgent
+from ai4u.ml.a3c.train import run as run_train
+from ai4u.ml.a3c.run_checkpoint import run as run_test
+from ai4u.utils import environment_definitions
+import AI4UGym
+from AI4UGym import BasicAgent
 import numpy as np
 import argparse
-
 
 '''
 This method extract environemnt state from a remote environment response.
@@ -13,14 +12,12 @@ This method extract environemnt state from a remote environment response.
 def get_state_from_fields(fields):
     return np.array([fields['tx'], fields['tz'], fields['vx'], fields['vz'], fields['x'],  fields['z']])
 
-
 '''
 It's necessary overloading the BasicAgent because server response (remote environment) don't have default field 'frame' as state.
 '''
 class Agent(BasicAgent):
     def __init__(self):
         BasicAgent.__init__(self)
-
 
     def reset(self, env):
         env_info = env.remoteenv.step("restart")
@@ -51,12 +48,12 @@ def make_env_def():
         environment_definitions['agent'] = Agent
 
 def train():
-        args = ['--n_workers=4', 'UnityRemote-v0']
+        args = ['--n_workers=4', 'AI4U-v0']
         make_env_def()
         run_train(environment_definitions, args)
 
 def test(path):
-        args = ['UnityRemote-v0', path,]
+        args = ['AI4U-v0', path,]
         make_env_def()
         run_test(environment_definitions, args)
 

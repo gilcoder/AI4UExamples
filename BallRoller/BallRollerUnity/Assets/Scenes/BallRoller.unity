@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -131,7 +132,7 @@ GameObject:
   - component: {fileID: 259264717}
   - component: {fileID: 259264716}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: BallBrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,15 +147,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 259264715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 143fdab4991fdf647a487b733bf3c4b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 51b06d6cffe40744ebf9c6022ae66972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agent: {fileID: 1895860466}
+  fixedUpdate: 1
+  updateStateOnUpdate: 0
   port: 8081
   buffer_size: 8192
   remoteIP: 127.0.0.1
   remotePort: 8080
-  agent: {fileID: 1895860466}
-  fixedUpdate: 1
+  alwaysUpdate: 0
 --- !u!4 &259264717
 Transform:
   m_ObjectHideFlags: 0
@@ -215,6 +218,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -290,9 +294,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1539536011
 MeshRenderer:
@@ -308,6 +312,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -379,8 +384,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657749292}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
@@ -576,6 +582,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -635,10 +642,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfFields: 9
-  userControl: 0
   target: {fileID: 1427391933}
   speed: 20
-  timeScaling: 10
 --- !u!54 &1895860467
 Rigidbody:
   m_ObjectHideFlags: 0

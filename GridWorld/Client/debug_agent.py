@@ -1,5 +1,5 @@
-from unityremote.core import RemoteEnv
-from unityremote.utils import image_from_str
+from ai4u.core import RemoteEnv
+from ai4u.utils import image_from_str
 
 def agent():
     env = RemoteEnv(IN_PORT=8081, OUT_PORT=7071)

@@ -1,11 +1,11 @@
-from unityremote.ml.a3c.train import run as run_train
-from unityremote.ml.a3c.run_checkpoint import run as run_test
-from unityremote.utils import environment_definitions
-import UnityRemoteGym
+from ai4u.ml.a3c.train import run as run_train
+from ai4u.ml.a3c.run_checkpoint import run as run_test
+from ai4u.utils import environment_definitions
+import AI4UGym
 import numpy as np
 import argparse
 from gym.core import Wrapper
-from unityremote.utils import image_from_str
+from ai4u.utils import image_from_str
 from collections import deque
 from matplotlib import pyplot as plt
 
@@ -16,8 +16,8 @@ ACTION_SIZE = 5
 
 def make_inference_network(obs_shape, n_actions, debug=False, extra_inputs_shape=None):
     import tensorflow as tf
-    from unityremote.ml.a3c.multi_scope_train_op import make_train_op 
-    from unityremote.ml.a3c.utils_tensorflow import make_grad_histograms, make_histograms, make_rmsprop_histograms, \
+    from ai4u.ml.a3c.multi_scope_train_op import make_train_op 
+    from ai4u.ml.a3c.utils_tensorflow import make_grad_histograms, make_histograms, make_rmsprop_histograms, \
         logit_entropy, make_copy_ops
 
     observations = tf.placeholder(tf.float32, [None] + list(obs_shape))
@@ -140,9 +140,9 @@ class Agent:
         frame = get_frame_from_fields(env_info)
 
         if action >= 0:
-            self.energy = ENERGY_DECAY * self.energy;
+            self.energy = ENERGY_DECAY * self.energy
         else:
-            self.energy += ENERGY_REST * MAX_ENERGY[self.goal_checker.g];
+            self.energy += ENERGY_REST * MAX_ENERGY[self.goal_checker.g]
 
         if self.energy > ENERGY_CAP:
             self.energy = ENERGY_CAP
@@ -239,12 +239,12 @@ def make_env_def():
         environment_definitions['make_inference_network'] = make_inference_network
 
 def train():
-        args = ['--n_workers=8', '--steps_per_update=30', 'UnityRemote-v0']
+        args = ['--n_workers=8', '--steps_per_update=30', 'AI4U-v0']
         make_env_def()
         run_train(environment_definitions, args)
 
 def test(path):
-        args = ['UnityRemote-v0', path]
+        args = ['AI4U-v0', path]
         make_env_def()
         run_test(environment_definitions, args)
 

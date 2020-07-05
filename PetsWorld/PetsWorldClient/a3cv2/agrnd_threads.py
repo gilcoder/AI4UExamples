@@ -1,4 +1,4 @@
-from unityremote.core import RemoteEnv, EnvironmentManager
+from ai4u.core import RemoteEnv, EnvironmentManager
 import numpy as np
 import threading
 import time

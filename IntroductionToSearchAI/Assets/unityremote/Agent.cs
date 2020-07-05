@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-namespace unityremote
+namespace ai4u
 {
+
+    public interface IAgentResetListener
+    {
+        void OnReset(Agent agent);
+    }
 
     public abstract class Brain : MonoBehaviour
     {
@@ -11,7 +17,7 @@ namespace unityremote
         public static byte STR = 3;
         public static byte OTHER = 4;
         public static byte FLOAT_ARRAY = 5;
-        protected string receivedcmd;
+        protected string receivedcmd; 
         protected string[] receivedargs;
         public abstract void SendMessage(string[] desc, byte[] tipo, string[] valor);
 
@@ -39,7 +45,20 @@ namespace unityremote
         private string[] desc;
         private byte[] types;
         private string[] values;
+        private List<IAgentResetListener> resetListener = new List<IAgentResetListener>();
+ 
+        public void AddResetListener(IAgentResetListener listener) 
+        {
+            resetListener.Add(listener);
+        }
 
+        public void RemoveResetListenerAt(int pos) {
+            resetListener.RemoveAt(pos);
+        }
+
+        public bool RemoveResetListenerAt(IAgentResetListener listener) {
+            return resetListener.Remove(listener);
+        }
 
         /***
         This method receives client's command to apply to remote environment.
@@ -75,6 +94,12 @@ namespace unityremote
             this.desc[i] = desc;
             this.types[i] = Brain.INT;
             this.values[i] = value.ToString();
+        }
+
+        public void NotifyReset() {
+            foreach (IAgentResetListener listener in resetListener) {
+                listener.OnReset(this);
+            }
         }
 
         public void SetStateAsFloat(int i, string desc, float value)

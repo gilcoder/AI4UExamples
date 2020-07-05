@@ -1,13 +1,13 @@
-from unityremote.gmproc.ga3c import A3CMaster, A3CWorker
-from unityremote.gmproc import ClientServer
+from ai4u.gmproc.ga3c import A3CMaster, A3CWorker
+from ai4u.gmproc import ClientServer
 from tensorflow import keras
 from tensorflow.keras import layers
-from unityremote.core import RemoteEnv, EnvironmentManager
-from unityremote.utils import image_decode, get_image
+from ai4u.core import RemoteEnv, EnvironmentManager
+from ai4u.utils import image_decode, get_image
 import numpy as np
 import threading
 import time
-from unityremote.gmproc import Workers
+from ai4u.gmproc import Workers
 from collections import deque
 import tensorflow as tf
 import cv2

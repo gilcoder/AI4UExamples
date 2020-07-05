@@ -1,6 +1,6 @@
 import numpy as np
 import time
-from unityremote.gmproc import ClientServer, ClientWorker, ServerWorker
+from ai4u.gmproc import ClientServer, ClientWorker, ServerWorker
 
 
 class MyServer(ServerWorker):

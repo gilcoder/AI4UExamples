@@ -9,7 +9,7 @@ import argparse
 import matplotlib.pyplot as plt
 from tensorflow import keras
 from tensorflow.keras import layers
-from unityremote.gmproc import ClientServer, ClientWorker, ServerWorker
+from ai4u.gmproc import ClientServer, ClientWorker, ServerWorker
 import tensorflow as tf
 import time
 import gym

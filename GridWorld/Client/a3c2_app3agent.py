@@ -1,11 +1,11 @@
-from unityremote.ml.a3c.train import run as run_train
-from unityremote.ml.a3c.run_checkpoint import run as run_test
-from unityremote.utils import environment_definitions
-import UnityRemoteGym
+from ai4u.ml.a3c.train import run as run_train
+from ai4u.ml.a3c.run_checkpoint import run as run_test
+from ai4u.utils import environment_definitions
+import AI4UGym
 import numpy as np
 import argparse
 from gym.core import Wrapper
-from unityremote.utils import image_from_str
+from ai4u.utils import image_from_str
 from collections import deque
 
 
@@ -97,7 +97,7 @@ class Agent:
         frame = np.moveaxis(frame, 0, -1)
         
         done = env_info['done']
-        reward = env_info['reward'];
+        reward = env_info['reward']
 
         proprioceptions = np.zeros(ARRAY_SIZE)
         proprioceptions[0] = self.energy/ENERGY_CAP
@@ -131,14 +131,14 @@ class Agent:
         if action >= 0:
             self.energy = ENERGY_DECAY * self.energy;
         else:
-            self.energy += ENERGY_REST * MAX_ENERGY[self.goal_checker.g];
+            self.energy += ENERGY_REST * MAX_ENERGY[self.goal_checker.g]
 
         if self.energy > ENERGY_CAP:
             self.energy = ENERGY_CAP
 
         
         done = env_info['done']
-        reward = env_info['reward'];
+        reward = env_info['reward']
 
 
         reward = np.clip(reward, -1, +1)
@@ -206,12 +206,12 @@ def make_env_def():
         environment_definitions['make_inference_network'] = make_inference_network
 
 def train():
-        args = ['--n_workers=8', '--steps_per_update=30', 'UnityRemote-v0']
+        args = ['--n_workers=8', '--steps_per_update=30', 'AI4U-v0']
         make_env_def()
         run_train(environment_definitions, args)
 
 def test(path):
-        args = ['UnityRemote-v0', path]
+        args = ['AI4U-v0', path]
         make_env_def()
         run_test(environment_definitions, args)
 

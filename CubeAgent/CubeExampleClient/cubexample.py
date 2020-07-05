@@ -1,4 +1,4 @@
-from unityremote.core import RemoteEnv
+from ai4u.core import RemoteEnv
 
 env = RemoteEnv()
 env.open()

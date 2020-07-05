@@ -1,6 +1,6 @@
-from unityremote.core import RemoteEnv
+from ai4u.core import RemoteEnv
 import numpy as np
-from unityremote.utils import image_decode
+from ai4u.utils import image_decode
 
 def agent():
     env = RemoteEnv(IN_PORT=8080, OUT_PORT=7070, host="127.0.0.1")

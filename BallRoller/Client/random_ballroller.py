@@ -1,4 +1,4 @@
-from unityremote.core import RemoteEnv
+from ai4u.core import RemoteEnv
 import numpy as np
 
 env = RemoteEnv()

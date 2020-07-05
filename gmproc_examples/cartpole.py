@@ -1,5 +1,5 @@
-from unityremote.gmproc.ga3c import A3CMaster, A3CWorker
-from unityremote.gmproc import ClientServer
+from ai4u.gmproc.ga3c import A3CMaster, A3CWorker
+from ai4u.gmproc import ClientServer
 import gym
 import os
 import shutil
