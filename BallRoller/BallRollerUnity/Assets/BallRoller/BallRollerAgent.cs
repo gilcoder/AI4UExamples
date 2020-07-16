@@ -49,7 +49,7 @@ public class BallRollerAgent : Agent
     
     public override void UpdatePhysics()
     {
-        if (gameObject.transform.localPosition.y < 0.0 && !done)
+        if (gameObject.transform.localPosition.y < -0.2 && !done)
         {
             done = true;
             reward = -1;
@@ -82,6 +82,7 @@ public class BallRollerAgent : Agent
         {
             reward = 1;
             done = true;
+            Debug.Log("SAIU PELA CULATRA");
         }
     }
 }
