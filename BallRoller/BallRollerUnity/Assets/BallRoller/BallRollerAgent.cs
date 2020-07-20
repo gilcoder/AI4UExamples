@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using ai4u;
+using ai4u.ext;
 
-public class BallRollerAgent : Agent
+public class BallRollerAgent : RLAgent
 {
     public GameObject target;
     private Rigidbody rBody;
     public float speed = 10;
     private bool done = false;
-    private float reward = 0.0f;
     private float fx, fz;
 
     public void Start()
     {
         rBody = GetComponent<Rigidbody>();
         done = false;
-        Time.timeScale = 10.0f;
+        ResetReward();
     }
 
     private void ResetPlayer()
@@ -24,9 +24,9 @@ public class BallRollerAgent : Agent
         rBody.angularVelocity = Vector3.zero;
         target.transform.localPosition = new Vector3(Random.value * 6 - 3, 0.5f, Random.value * 6 - 3);
         transform.localPosition = new Vector3(0, 0.5f, 0);
-        reward = 0;
         fx = 0;
         fz = 0;
+        ResetReward();
     }
 
     public override void ApplyAction()
@@ -42,6 +42,7 @@ public class BallRollerAgent : Agent
                 fz = GetActionArgAsFloat();
                 break;
             case "restart":
+                Debug.Log("Restarting");
                 ResetPlayer();
                 break;
         }
@@ -49,11 +50,10 @@ public class BallRollerAgent : Agent
     
     public override void UpdatePhysics()
     {
-        if (gameObject.transform.localPosition.y < -0.2 && !done)
-        {
+
+        if (transform.position.y < -0.5){
             done = true;
-            reward = -1;
-            return;
+            AddReward(-1);
         }
 
         if (rBody != null)
@@ -62,11 +62,24 @@ public class BallRollerAgent : Agent
         }
     }
 
+    void OnCollisionStay(Collision other) {
+        if (other.gameObject.name == "Target") {
+            done = true;
+        }
+    }
+
+    void boxListener(BoxRewardFunc fun) {
+        done = true;
+    }
+
 
     public override void UpdateState()
     {
+        if (done) {
+            Debug.Log("OLOUCO.....");
+        }
         SetStateAsBool(0, "done", done);
-        SetStateAsFloat(1, "reward", reward);
+        SetStateAsFloat(1, "reward", Reward);
         SetStateAsFloat(2, "tx", target.transform.localPosition.x);
         SetStateAsFloat(3, "tz", target.transform.localPosition.z);
         SetStateAsFloat(4, "vx", rBody.velocity.x);
@@ -74,15 +87,6 @@ public class BallRollerAgent : Agent
         SetStateAsFloat(6, "x", transform.localPosition.x);
         SetStateAsFloat(7, "y", transform.localPosition.y);
         SetStateAsFloat(8, "z", transform.localPosition.z);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name.Equals("Target") && !done)
-        {
-            reward = 1;
-            done = true;
-            Debug.Log("SAIU PELA CULATRA");
-        }
+        ResetReward();
     }
 }

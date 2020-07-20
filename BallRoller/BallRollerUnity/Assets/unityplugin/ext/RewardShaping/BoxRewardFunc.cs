@@ -10,6 +10,7 @@ namespace ai4u.ext
         public float rewardValue = 1.0f;
         public bool checkInside = true;
         public bool triggerOnStay = true;
+        public bool triggerOnExit = false;
         private int[] counter;
         private Collider myCollider;
 
@@ -18,6 +19,9 @@ namespace ai4u.ext
             myCollider = GetComponent<Collider>();
             foreach(Agent agent in agents) {
                 agent.AddResetListener(this);
+            }
+            if (triggerOnStay) {
+                triggerOnExit = false;
             }
         }
 
@@ -28,8 +32,14 @@ namespace ai4u.ext
         }
 
         void OnTriggerEnter(Collider collider) {
-            if (!triggerOnStay) {
+            if (!triggerOnStay && !triggerOnExit) {
                 Check(collider);
+            }
+        }
+
+        void OnTriggerExit(Collider collider) {
+            if (triggerOnExit) {
+                Check(collider, true);
             }
         }
 
@@ -40,8 +50,14 @@ namespace ai4u.ext
         }
 
         void OnCollisionEnter(Collision other) {
-            if (!triggerOnStay) {
+            if (!triggerOnStay && !triggerOnExit) {
                 Check(other.collider);
+            }
+        }
+
+        void OnCollisionExit(Collision other) {
+            if (triggerOnExit) {
+                Check(other.collider, true);
             }
         }
 
@@ -49,11 +65,15 @@ namespace ai4u.ext
             counter = new int[agents.Length]; 
         }
 
-        private void Check(Collider collider)
+        private void Check(Collider collider, bool checkExit = false)
         {
             RLAgent agent = collider.gameObject.GetComponent<RLAgent>();
-            
-            if ( counter[agent.Id] < maxNumberOfTheRewards || maxNumberOfTheRewards < 0  )
+            agent.boxListener(this);
+
+            if (checkExit) {
+                counter[agent.Id]++;
+                agent.AddReward(rewardValue, this);
+            } else if ( counter[agent.Id] < maxNumberOfTheRewards || maxNumberOfTheRewards < 0  )
             {
                 if (checkInside)
                 {

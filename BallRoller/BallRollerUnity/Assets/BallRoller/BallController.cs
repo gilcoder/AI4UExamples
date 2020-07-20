@@ -40,10 +40,11 @@ public class BallController : Controller
 
         if (Input.GetKey(KeyCode.R))
         {
+            actionName = "restart";
             actionValue = -1;
         }
 
-        if (actionValue >= 0)
+        if (actionName != "restart")
         {
             return GetFloatAction(actionName, actionValue);
         } else
