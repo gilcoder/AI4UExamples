@@ -31,7 +31,7 @@ class Agent(BasicAgent):
 def make_env_def():
 	environment_definitions['state_shape'] = (6,)
 	environment_definitions['action_shape'] = (5,)
-	environment_definitions['actions'] = [('fx', 0.1), ('fx', -0.1), ('fz', 0.1), ('fz', -0.1), ('noop', 0.0)]
+	environment_definitions['actions'] = [('fx', 0.5), ('fx', -0.5), ('fz', 0.5), ('fz', -0.5), ('noop', 0.0)]
 	environment_definitions['agent'] = Agent
 	environment_definitions['input_port'] = 8080
 	environment_definitions['output_port'] = 7070

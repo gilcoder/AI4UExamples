@@ -42,7 +42,6 @@ public class BallRollerAgent : RLAgent
                 fz = GetActionArgAsFloat();
                 break;
             case "restart":
-                Debug.Log("Restarting");
                 ResetPlayer();
                 break;
         }
@@ -50,12 +49,6 @@ public class BallRollerAgent : RLAgent
     
     public override void UpdatePhysics()
     {
-
-        if (transform.position.y < -0.5){
-            done = true;
-            AddReward(-1);
-        }
-
         if (rBody != null)
         {
             rBody.AddForce(fx * speed, 0, fz * speed);
@@ -68,16 +61,13 @@ public class BallRollerAgent : RLAgent
         }
     }
 
-    void boxListener(BoxRewardFunc fun) {
+    public override void boxListener(BoxRewardFunc fun) {
         done = true;
     }
 
 
     public override void UpdateState()
     {
-        if (done) {
-            Debug.Log("OLOUCO.....");
-        }
         SetStateAsBool(0, "done", done);
         SetStateAsFloat(1, "reward", Reward);
         SetStateAsFloat(2, "tx", target.transform.localPosition.x);
